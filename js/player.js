@@ -1,51 +1,56 @@
-class Player{
-    constructor(ctx){
-        this.ctx=ctx;
-        this.imagePlayer01=new Image();
-        this.imagePlayer01.src="img/Marvin01.png";
-        this.imagePlayer02=new Image();
-        this.imagePlayer02.src="img/Marvin02.png";
-        this.w=80;
-        this.h=80;
-        
-        this.x=30;
-        this.y=30;
-        this.positionY=false;
-    }
+class Player {
+  constructor(ctx) {
+    this.ctx = ctx;
+    this.imagePlayer01 = new Image();
+    this.imagePlayer01.src = "./img/Marvin the MartianRun01.png";
+    this.w =40;
+    this.h = 80;
 
-    //me dibuja el jugador
-    draw()
-    {
-if(this.y==(560-this.w)){
-        this.ctx.drawImage(
-            this.imagePlayer01,
-            this.x=30,
-            this.y=560-this.w,
-            this.w,
-            this.h
-        );
-}else{
+    this.x = 30;
+    this.y = 30;
+    this.positionY = false;
+
+    // número de imágenes diferentes
+    this.imagePlayer01.frames = 4;
+    this.imagePlayer01.frameIndex = 0;
+  }
+
+  //me dibuja el jugador
+  draw(framesCounter) {
     this.ctx.drawImage(
-        this.imagePlayer02,
-        this.x=30,
-        this.y=30,
-        this.w,
-        this.h
+      this.imagePlayer01,
+
+      this.imagePlayer01.frameIndex*Math.floor(this.imagePlayer01.width / this.imagePlayer01.frames),0,Math.floor(this.imagePlayer01.width / this.imagePlayer01.frames),this.imagePlayer01.height,
+
+      this.x,
+      this.y,
+      this.w,
+      this.h
     );
-}
-    }
 
-    //me mueve el jugador 
-    move()
-    {
-        if (this.positionY){
-            
-            this.y=560-this.w;
+    this.animateImg(framesCounter);
+  }
 
-        }
-        else{
-            this.x=30;
-            this.y=30;
-        }
+  animateImg(framesCounter) {
+    // se va cambiando el frame. Cuanto mayor es el módulo, mas lento se mueve el personaje
+    console.log(this.imagePlayer01.frameIndex)
+    if (framesCounter % 6 === 0) {
+      this.imagePlayer01.frameIndex++;
+
+      // Si el frame es el último, se vuelve al primero
+      if (this.imagePlayer01.frameIndex > 3) this.imagePlayer01.frameIndex = 0;
     }
+  }
+
+  //me mueve el jugador
+  move() {
+    if (this.positionY) {
+      this.imagePlayer01.src = "./img/Marvin the MartianRun01.png";
+      this.y = 560 - this.h;
+    } else {
+      this.imagePlayer01.src = "./img/Marvin the MartianRun02.png";
+      this.x = 30;
+      this.y = 30;
+    }
+  }
 }

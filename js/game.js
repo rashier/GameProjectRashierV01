@@ -4,8 +4,9 @@ const Game = {
   intervalID: undefined,
   fps: 60,
   background: undefined,
-  player:undefined,
-  obstacles:[],
+  player: undefined,
+  obstacles: [],
+  framesCounter : 0,
   // scoreBoard: undefined,
   keys: {
     SPACE: 32
@@ -20,23 +21,30 @@ const Game = {
       this.ctx
     );
 
-    this.player=new Player(this.ctx);
+    this.player = new Player(this.ctx);
 
-    document.addEventListener("keypress",(e)=>{
-        e.preventDefault();
-        
-        if (e.keyCode==32){
-        this.player.positionY=!this.player.positionY
-        }
-    })
-      //   ScoreBoard.init(this.ctx);
+    document.addEventListener("keypress", e => {
+      e.preventDefault();
 
-      this.start();
+      if (e.keyCode == 32) {
+        this.player.positionY = !this.player.positionY;
+      }
+    });
+    //   ScoreBoard.init(this.ctx);
+
+    this.start();
   },
 
   start: function() {
     this.intervalID = setInterval(() => {
-      this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+      this.clear();
+      this.framesCounter++;
+
+      // controlamos que frameCounter no sea superior a 1000
+      if (this.framesCounter > 1000) {
+        this.framesCounter = 0;
+      }
+
       this.drawAll();
       this.moveAll();
     }, 1000 / this.fps);
@@ -44,13 +52,16 @@ const Game = {
 
   drawAll: function() {
     this.background.draw();
-    this.player.draw();
+    this.player.draw(this.framesCounter);
+    console.log(this.framesCounter)
   },
 
   moveAll: function() {
     this.background.move();
     this.player.move();
+  },
+
+  clear: function() {
+    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
   }
-
-
 };
