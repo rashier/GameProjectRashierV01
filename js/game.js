@@ -12,26 +12,29 @@ const Game = {
 
   // scoreBoard: undefined,
 
-  init: function(canvasId) {
+  init: function(canvasId,assets) {
     this.canvas = document.getElementById(canvasId);
     this.ctx = this.canvas.getContext("2d");
+    this.assets=assets;
 
     this.background = new Background(
       this.canvas.width,
       this.canvas.height,
-      this.ctx
+      this.ctx,
+      this.assets[5]
     );
-      let gap = 0;
-    this.player = new Player(this.ctx);
-    this.obstaclesTop = Array(26).fill().map((_, idx) => new Obstacles(this.ctx, (idx * (40 + gap) )))
-    this.obstaclesBottom = Array(26).fill().map((_, idx) => new Obstacles(this.ctx, (idx * (40 + gap) )))
-    this.obstaclesMiddle = Array(26).fill().map((_, idx) => new Obstacles(this.ctx, (idx * 40) + this.canvas.width))
+
+    this.player = new Player(this.ctx,this.assets[0],this.assets[1],this.assets[2],this.assets[3]);
+    
+    this.obstaclesTop = Array(26).fill().map((_, idx) => new Obstacle(this.ctx, (idx * (40) ),this.assets[4]))
+    this.obstaclesBottom = Array(26).fill().map((_, idx) => new Obstacle(this.ctx, (idx * (40) ),this.assets[4]))
+    this.obstaclesMiddle = Array(26).fill().map((_, idx) => new Obstacle(this.ctx, ((idx * 40) + this.canvas.width),this.assets[4]))
 
 
     document.addEventListener("keypress", e => {
       e.preventDefault();
       if (e.keyCode == 32) {
-        this.player.positionY = !this.player.positionY;
+        this.player.jumping = !this.player.jumping;
       }
       if (e.keyCode == 60) {
         this.player.change = !this.player.change;
@@ -51,9 +54,9 @@ const Game = {
         this.framesCounter = 0;
       }
 
-      // if (this.framesCounter % 50 === 0) {
-      //   this.generateObstacle();
-      // }
+      if (this.framesCounter % 50 === 0) {
+        this.generateObstacle();
+      }
 
       this.drawAll();
       this.moveAll();
@@ -62,13 +65,13 @@ const Game = {
 
   drawAll: function() {
     this.background.draw();
-    
+
     for (var i = 0; i < this.obstaclesTop.length; i++) {
 
-      this.obstaclesTop[i].x-=.8
+      this.obstaclesTop[i].x-=this.obstaclesTop[i].dx
 
       this.ctx.drawImage(
-        this.obstaclesTop[i].imageObstacles,
+        this.obstaclesTop[i].imageObstacle,
         this.obstaclesTop[i].x,
         this.obstaclesTop[i].y,
         this.obstaclesTop[i].w,
@@ -77,11 +80,11 @@ const Game = {
     }
 
     for (var i = 0; i < this.obstaclesBottom.length; i++) {
-      
-      this.obstaclesBottom[i].x-=.8
+
+      this.obstaclesBottom[i].x-=this.obstaclesTop[i].dx
 
       this.ctx.drawImage(
-        this.obstaclesBottom[i].imageObstacles,
+        this.obstaclesBottom[i].imageObstacle,
         this.obstaclesBottom[i].x,
         this.obstaclesBottom[i].y=this.canvas.height-40,
         this.obstaclesBottom[i].w,
@@ -90,11 +93,11 @@ const Game = {
     }
 
     for (var i = 0; i < this.obstaclesMiddle.length; i++) {
-      
-      this.obstaclesMiddle[i].x-=.8
+
+      this.obstaclesMiddle[i].x-=this.obstaclesTop[i].dxMiddle
 
       this.ctx.drawImage(
-        this.obstaclesMiddle[i].imageObstacles,
+        this.obstaclesMiddle[i].imageObstacle,
         this.obstaclesMiddle[i].x,
         this.obstaclesMiddle[i].y=this.canvas.height/2,
         this.obstaclesMiddle[i].w,
@@ -102,8 +105,8 @@ const Game = {
       );
     }
 
-   
-    //me dibuja eñ jugador
+
+    //me dibuja eL jugador
     this.player.draw(this.framesCounter);
   },
 
@@ -112,12 +115,24 @@ const Game = {
     this.player.move();
   },
 
-  //generamos nuevos obstáculos
-  // generateObstacle: function() {
-  //   this.obstacles.push(
-  //     new Obstacles(this.ctx)
-  //   );
-  // },
+  // generamos nuevos obstáculos
+  generateObstacle: function() {
+    this.obstaclesTop.push(
+      new Obstacle(this.ctx,1000,this.assets[4])
+    );
+
+    if (this.obstaclesTop[0].x<(-this.obstaclesTop[0].w))
+    this.obstaclesTop.shift();
+
+    this.obstaclesBottom.push(
+      new Obstacle(this.ctx,1000,this.assets[4])
+    );
+    if (this.obstaclesBottom[0].x<(-this.obstaclesBottom[0].w))
+    this.obstaclesBottom.shift();
+
+  // obstaclesMiddle PENDIENTE SU IMPLEMENTACION
+
+    },
 
   clear: function() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);

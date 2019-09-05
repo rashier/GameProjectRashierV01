@@ -1,26 +1,34 @@
 class Player {
-  constructor(ctx) {
+  constructor(ctx, imageMarvin01, imageMarvin02, imageDot03, imageDot04) {
     this.ctx = ctx;
-    this.imagePlayer01 = new Image();
-    this.imagePlayer01.src = "./img/Dotwarner02.png";
-    this.w =80;
+    this.imagePlayerArray = [
+      imageMarvin01,
+      imageMarvin02,
+      imageDot03,
+      imageDot04
+    ];
+    this.imagePlayer01 = this.imagePlayerArray[0];
+    this.w = 80;
     this.h = 160;
 
     this.x = 40;
-    this.y = 40;
-    this.change=true;
-    this.positionY = true;
-
-    // número de imágenes diferentes
-    this.imagePlayer01.frames = 4;
-    this.imagePlayer01.frameIndex = 0;
+    this.y = this.ctx.canvas.height - this.h - 40;
+    this.dy = 0;
+    this.change = true;
+    this.jumping = false;
+    this.press = false;
+    this.frames = 4;
+    this.frameIndex = 0;
   }
 
   //me dibuja el jugador
   draw(framesCounter) {
     this.ctx.drawImage(
       this.imagePlayer01,
-      this.imagePlayer01.frameIndex*Math.floor(this.imagePlayer01.width / this.imagePlayer01.frames),0,Math.floor(this.imagePlayer01.width / this.imagePlayer01.frames),this.imagePlayer01.height,
+      this.frameIndex * Math.floor(this.imagePlayer01.width / this.frames),
+      0,
+      Math.floor(this.imagePlayer01.width / this.frames),
+      this.imagePlayer01.height,
 
       this.x,
       this.y,
@@ -32,37 +40,65 @@ class Player {
   }
 
   animateImg(framesCounter) {
-    // se va cambiando el frame. Cuanto mayor es el módulo, mas lento se mueve el personaje
     if (framesCounter % 4 === 0) {
-      this.imagePlayer01.frameIndex++;
+      this.frameIndex++;
 
-      // Si el frame es el último, se vuelve al primero
-      if (this.imagePlayer01.frameIndex > 3) this.imagePlayer01.frameIndex = 0;
+      if (this.frameIndex > 3) this.frameIndex = 0;
     }
   }
 
-  //me mueve el jugador
   move() {
-    if (this.change){
-      if (this.positionY) {
-        this.imagePlayer01.src = "img/Marvin the MartianRun01.png";
-          this.y = this.ctx.canvas.height-this.h-40;
-        } else {
-          this.imagePlayer01.src = "img/Marvin the MartianRun02.png";
-          this.x = 40;
-          this.y = 40;
-        }
+    this.checkCollision();
+
+    if (this.change) {
+      if (!this.jumping) {
+        this.imagePlayer01 = this.imagePlayerArray[0];
+        this.y += this.dy;
+      } else {
+        this.imagePlayer01 = this.imagePlayerArray[1];
+        this.y += this.dy;
       }
-        else{
-          if (this.positionY) {
-            this.imagePlayer01.src = "img/Dotwarner02.png";
-              this.y = this.ctx.canvas.height-this.h-40;
-            } else {
-              this.imagePlayer01.src = "img/Dotwarner01.png";
-              this.x = 40;
-              this.y = 40;
-            }
+    } else {
+      if (this.jumping) {
+        this.imagePlayer01 = this.imagePlayerArray[2];
+        this.y += this.dy;
+      } else {
+        this.imagePlayer01 = this.imagePlayerArray[3];
+        this.y += this.dy;
+      }
+    }
+  }
+  checkCollision() {
+    let yBottomPlayer = this.y + this.h;
+    let yTopObstaclesBottom = this.ctx.canvas.height - 40;
+    let yBottomObstacleMiddle =
+      Game.obstaclesMiddle[0].y + Game.obstaclesMiddle[0].h;
+
+    if (
+      (this.y <= 40 && this.jumping === true) ||
+      (this.y <= yBottomObstacleMiddle &&
+        Game.obstaclesMiddle[0].x <= 40 &&
+        this.jumping === true &&
+        Game.obstaclesMiddle[25].x >= 40)
+    ) 
+    {
+      this.dy = 0;
+    } 
     
+    else if 
+      (yBottomPlayer >= yTopObstaclesBottom && this.jumping === false||
+      ((this.y+this.h) >= Game.obstaclesMiddle[0].y && 
+      Game.obstaclesMiddle[0].x <= 40 && 
+      this.jumping === false && 
+      Game.obstaclesMiddle[25].x >= 40)) 
+      {
+      this.dy = 0;
+    }
+    
+    else if (this.jumping === true ) {
+      this.dy = -2;
+    } else if (this.jumping === false) {
+      this.dy = 2;
     }
   }
 }

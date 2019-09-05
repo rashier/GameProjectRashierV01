@@ -1,9 +1,7 @@
 class Background{
-    constructor(w,h,ctx){
+    constructor(w,h,ctx, backgroundImage){
         this.ctx=ctx;
-        this.imageBackground=new Image();
-        //
-        this.imageBackground.src="img/planet07.png";
+        this.imageBackground=backgroundImage
         this.w=w;
         this.h=h;
         
