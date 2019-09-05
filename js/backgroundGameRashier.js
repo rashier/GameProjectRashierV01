@@ -3,13 +3,13 @@ class Background{
         this.ctx=ctx;
         this.imageBackground=new Image();
         //
-        this.imageBackground.src="img/background-space01.jpg";
+        this.imageBackground.src="img/planet07.png";
         this.w=w;
         this.h=h;
         
         this.x=0;
         this.y=0;
-        this.dx=7;
+        this.dx=2;
     }
 
     //me dibuja el background
