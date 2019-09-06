@@ -8,7 +8,7 @@ class Obstacle{
         this.x=x;
         this.y=0;
         this.dx=.8;
-        this.dxMiddle=2;
+        this.dxMiddle=7;
 
     }
 

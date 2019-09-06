@@ -1,3 +1,38 @@
+* {
+  box-sizing: border-box;
+}
 body {
-    display: flex;
+  display: flex;
+  flex-direction: row;
+  width: 100vw;
+  height: 100vh;
+}
+#barraLateral {
+  display: flex;
+  flex-direction: column;
+}
+#firstScreen {
+  width:360px;
+  background: linear-gradient(to bottom right, black, greenyellow);
+  color: white;
+  text-align: center;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-weight: bolder;
+  font-size: 40px;
+  padding: 30px 0;
+}
+#background{
+  width:360px;
+  height:336px;
+}
+#scoreboard {
+  background: linear-gradient(to bottom right, black, greenyellow);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 35px 0;
+  font-family: fantasy;
+  font-size: 50px;
+  font-weight: bold;
+  color: white;
 }

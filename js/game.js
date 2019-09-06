@@ -9,8 +9,8 @@ const Game = {
   obstaclesBottom: [],
   obstaclesMiddle: [],
   framesCounter: 0,
-
-  // scoreBoard: undefined,
+  counter:0,
+  score:0,
 
   init: function(canvasId,assets) {
     this.canvas = document.getElementById(canvasId);
@@ -28,28 +28,29 @@ const Game = {
     
     this.obstaclesTop = Array(26).fill().map((_, idx) => new Obstacle(this.ctx, (idx * (40) ),this.assets[4]))
     this.obstaclesBottom = Array(26).fill().map((_, idx) => new Obstacle(this.ctx, (idx * (40) ),this.assets[4]))
-    this.obstaclesMiddle = Array(26).fill().map((_, idx) => new Obstacle(this.ctx, ((idx * 40) + this.canvas.width),this.assets[4]))
-
+    this.generateObstacleMiddle();
 
     document.addEventListener("keypress", e => {
       e.preventDefault();
       if (e.keyCode == 32) {
         this.player.jumping = !this.player.jumping;
+        this.counter++;
       }
       if (e.keyCode == 60) {
         this.player.change = !this.player.change;
       }
     });
-    //   ScoreBoard.init(this.ctx);
 
     this.start();
   },
 
   start: function() {
+
     this.intervalID = setInterval(() => {
       this.clear();
       this.framesCounter++;
-
+      this.score++;
+      this.counter++;
       if (this.framesCounter > 1000) {
         this.framesCounter = 0;
       }
@@ -58,10 +59,19 @@ const Game = {
         this.generateObstacle();
       }
 
+      if (this.counter % 300 === 0) {
+        this.generateObstacleMiddle();
+        this.counter=0;
+      }
+
+
       this.drawAll();
       this.moveAll();
+      document.getElementById("scoreboard").innerHTML="Score: "+Math.floor(this.score/30);
     }, 1000 / this.fps);
   },
+
+ 
 
   drawAll: function() {
     this.background.draw();
@@ -81,7 +91,7 @@ const Game = {
 
     for (var i = 0; i < this.obstaclesBottom.length; i++) {
 
-      this.obstaclesBottom[i].x-=this.obstaclesTop[i].dx
+      this.obstaclesBottom[i].x-=this.obstaclesBottom[i].dx
 
       this.ctx.drawImage(
         this.obstaclesBottom[i].imageObstacle,
@@ -91,20 +101,20 @@ const Game = {
         this.obstaclesBottom[i].h
       );
     }
+    this.obstaclesMiddle.forEach((elem)=>{
+        for (var i = 0; i < elem.length; i++) {
 
-    for (var i = 0; i < this.obstaclesMiddle.length; i++) {
+          elem[i].x-=elem[i].dxMiddle
 
-      this.obstaclesMiddle[i].x-=this.obstaclesTop[i].dxMiddle
-
-      this.ctx.drawImage(
-        this.obstaclesMiddle[i].imageObstacle,
-        this.obstaclesMiddle[i].x,
-        this.obstaclesMiddle[i].y=this.canvas.height/2,
-        this.obstaclesMiddle[i].w,
-        this.obstaclesMiddle[i].h
-      );
-    }
-
+          this.ctx.drawImage(
+            elem[i].imageObstacle,
+            elem[i].x,
+            elem[i].y=canvas.height/2,
+            elem[i].w,
+            elem[i].h
+          );
+        }
+    })
 
     //me dibuja eL jugador
     this.player.draw(this.framesCounter);
@@ -130,10 +140,14 @@ const Game = {
     if (this.obstaclesBottom[0].x<(-this.obstaclesBottom[0].w))
     this.obstaclesBottom.shift();
 
-  // obstaclesMiddle PENDIENTE SU IMPLEMENTACION
 
     },
+    generateObstacleMiddle: function(){
 
+      this.obstaclesMiddle[0]=( Array(26).fill().map((_, idx) => new Obstacle(this.ctx, ((idx * 40) + this.canvas.width),this.assets[4])))
+    
+    },
+    
   clear: function() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
   }
