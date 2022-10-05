@@ -9,7 +9,5 @@ class Obstacle{
         this.y=0;
         this.dx=.8;
         this.dxMiddle=7;
-
     }
-
 }

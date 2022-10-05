@@ -7,9 +7,10 @@ class Player {
       imageDot03,
       imageDot04
     ];
+
     this.imagePlayer01 = this.imagePlayerArray[0];
     this.w = 80;
-    this.h = 160;
+    this.h = 120;
 
     this.x = 40;
     this.y = this.ctx.canvas.height - this.h - 40;
@@ -68,6 +69,7 @@ class Player {
       }
     }
   }
+
   checkCollision() {
     let yBottomPlayer = this.y + this.h;
     let yTopObstaclesBottom = this.ctx.canvas.height - 40;
@@ -78,7 +80,7 @@ class Player {
     (this.jumping === false) && Game.obstaclesMiddle[0][25].x >= 40&&+(this.y+this.h) <= yBottomObstacleMiddle)
     || (yBottomPlayer >= yTopObstaclesBottom && this.jumping === false) 
     ||(this.y <= yBottomObstacleMiddle && Game.obstaclesMiddle[0][0].x <= 40 &&(this.jumping === true) &&
-      Game.obstaclesMiddle[0][25].x >= 40&&this.y>=Game.obstaclesMiddle[0][0].y))
+      Game.obstaclesMiddle[0][25].x >= 40&&this.y >= Game.obstaclesMiddle[0][0].y))
     {
       this.dy=0
     }

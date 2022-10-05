@@ -1,3 +1,4 @@
+
 const Game = {
   canvas: undefined,
   ctx: undefined,
@@ -12,9 +13,15 @@ const Game = {
   counter:0,
   score:0,
 
-  init: function(canvasId,assets) {
+  init: function(canvasId, assets) {
     this.canvas = document.getElementById(canvasId);
+
+    let canvasContainer = document.getElementById('container')
     this.ctx = this.canvas.getContext("2d");
+
+    this.canvas.width  = canvasContainer.offsetWidth;
+    this.canvas.height = canvasContainer.offsetHeight;
+    
     this.assets=assets;
 
     this.background = new Background(
@@ -32,11 +39,12 @@ const Game = {
 
     document.addEventListener("keypress", e => {
       e.preventDefault();
-      if (e.keyCode == 32) {
+      if (e.key == ' ') {
         this.player.jumping = !this.player.jumping;
         this.counter++;
       }
-      if (e.keyCode == 60) {
+
+      if (e.key == 'c') {
         this.player.change = !this.player.change;
       }
     });
@@ -64,14 +72,11 @@ const Game = {
         this.counter=0;
       }
 
-
       this.drawAll();
       this.moveAll();
       document.getElementById("scoreboard").innerHTML="Score: "+Math.floor(this.score/30);
     }, 1000 / this.fps);
   },
-
- 
 
   drawAll: function() {
     this.background.draw();
@@ -91,7 +96,7 @@ const Game = {
 
     for (var i = 0; i < this.obstaclesBottom.length; i++) {
 
-      this.obstaclesBottom[i].x-=this.obstaclesBottom[i].dx
+      this.obstaclesBottom[i].x -= this.obstaclesBottom[i].dx
 
       this.ctx.drawImage(
         this.obstaclesBottom[i].imageObstacle,
@@ -101,15 +106,15 @@ const Game = {
         this.obstaclesBottom[i].h
       );
     }
-    this.obstaclesMiddle.forEach((elem)=>{
+    this.obstaclesMiddle.forEach((elem) => {
         for (var i = 0; i < elem.length; i++) {
 
-          elem[i].x-=elem[i].dxMiddle
+          elem[i].x -= elem[i].dxMiddle
 
           this.ctx.drawImage(
             elem[i].imageObstacle,
             elem[i].x,
-            elem[i].y=canvas.height/2,
+            elem[i].y = canvas.height/2,
             elem[i].w,
             elem[i].h
           );
@@ -131,7 +136,7 @@ const Game = {
       new Obstacle(this.ctx,1000,this.assets[4])
     );
 
-    if (this.obstaclesTop[0].x<(-this.obstaclesTop[0].w))
+    if (this.obstaclesTop[0].x < (-this.obstaclesTop[0].w))
     this.obstaclesTop.shift();
 
     this.obstaclesBottom.push(
