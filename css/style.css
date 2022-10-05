@@ -4,7 +4,7 @@
 
 main {
   display: grid;
-  grid-template-columns: 70% 30%;
+  grid-template-columns: 80% 20%;
   margin: 2rem;
   border: 0.5rem double darkslategray;
 }
