@@ -100,23 +100,29 @@ class Player {
   checkCollision() {
     let yBottomPlayer = this.y + this.h;
     let yTopObstaclesBottom = this.ctx.canvas.height - 40;
+    // console.log(Game.obstaclesMiddle);
     let yBottomObstacleMiddle = Game.obstaclesMiddle[0][0].y + Game.obstaclesMiddle[0][0].h;
-
-    if ((this.y <= 40 && this.jumping === true)||
-    (yBottomPlayer >= Game.obstaclesMiddle[0][0].y && Game.obstaclesMiddle[0][0].x <= 40 && 
-    (this.jumping === false) && Game.obstaclesMiddle[0][25].x >= 40 && +(this.y + this.h) <= yBottomObstacleMiddle)
-    || (yBottomPlayer >= yTopObstaclesBottom && this.jumping === false) 
-    ||(this.y <= yBottomObstacleMiddle && Game.obstaclesMiddle[0][0].x <= 40 &&(this.jumping === true) &&
-      Game.obstaclesMiddle[0][25].x >= 40&&this.y >= Game.obstaclesMiddle[0][0].y))
-    {
+    let obsMidX = Game.obstaclesMiddle.length
+    
+    if ((this.y <= 40 && this.jumping === true)
+      ||  ( yBottomPlayer >= Game.obstaclesMiddle[0][0].y 
+            && Game.obstaclesMiddle[0][0].x <= 40 
+            && (this.jumping === false) 
+            && Game.obstaclesMiddle[0][obsMidX].x >= 40 
+            && +(this.y + this.h) <= yBottomObstacleMiddle
+          )
+      ||  ( yBottomPlayer >= yTopObstaclesBottom && this.jumping === false) 
+      ||  ( this.y <= yBottomObstacleMiddle 
+            && Game.obstaclesMiddle[0][0].x <= 40 
+            && (this.jumping === true) 
+            && Game.obstaclesMiddle[0][25].x >= 40
+            && this.y >= Game.obstaclesMiddle[0][0].y
+          )
+    ) {
       this.dy = 0
-    }
-    else if (this.jumping === true ) 
-    {
+    } else if (this.jumping === true ) {
       this.dy = -10 ;
-    }    
-    else if (this.jumping === false) 
-    {
+    } else if (this.jumping === false) {
       this.dy = 10;
     }
   }

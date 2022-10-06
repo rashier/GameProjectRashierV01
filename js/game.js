@@ -14,11 +14,14 @@ const Game = {
 
   /* The function that initializes the game. */
   init: function(canvasId, assets) {
+    console.log('wewer');
     this.canvas = document.getElementById(canvasId);
 
     let canvasContainer = document.getElementById('container')
-    this.ctx = this.canvas.getContext("2d");
+    
 
+    this.ctx = this.canvas.getContext("2d");
+    // TODO fix width and height to canvas
     this.canvas.width  = canvasContainer.offsetWidth;
     this.canvas.height = canvasContainer.offsetHeight;
 
@@ -39,8 +42,8 @@ const Game = {
       this.assets[3]
     );
 
-    this.obstaclesTop = Array(26).fill().map((_, idx) => new Obstacle(this.ctx, (idx * (40) ), this.assets[4]))
-    this.obstaclesBottom = Array(26).fill().map((_, idx) => new Obstacle(this.ctx, (idx * (40) ), this.assets[4]))
+    this.obstaclesTop = Array(Math.round(this.canvas.width/40)+1).fill().map((_, idx) => new Obstacle(this.ctx, (idx * (40) ), this.assets[4]))
+    this.obstaclesBottom = Array(Math.round(this.canvas.width/40)+1).fill().map((_, idx) => new Obstacle(this.ctx, (idx * (40) ), this.assets[4]))
     this.generateObstacleMiddle();
 
     /* Listening to the keypress event and depending on the key pressed it will do
@@ -78,14 +81,14 @@ const Game = {
         this.generateObstacle();
       }
 
-      if (this.counter % 300 === 0) {
-        this.generateObstacleMiddle();
+      if (this.counter % this.canvas.width === 0) {
+        // this.generateObstacleMiddle();
         this.counter = 0;
       }
 
       this.drawAll();
       this.moveAll();
-      document.getElementById("scoreboard").innerHTML = "Score: " + Math.floor(this.score/30);
+      document.getElementById("scoreboard").innerHTML = "Score: <br>" + Math.floor(this.score/30);
     }, 1000 / this.fps);
   },
 
@@ -120,14 +123,16 @@ const Game = {
     }
 
     this.obstaclesMiddle.forEach((elem) => {
+      // console.log(elem);
+      // debugger
         for (var i = 0; i < elem.length; i++) {
 
           elem[i].x -= elem[i].dxMiddle
-
+          
           this.ctx.drawImage(
             elem[i].imageObstacle,
             elem[i].x,
-            elem[i].y = canvas.height/2,
+            elem[i].y = this.canvas.height/2,
             elem[i].w,
             elem[i].h
           );
@@ -146,23 +151,24 @@ const Game = {
 
   /* Creating a new obstacle and pushing it to the array of obstacles. */
   generateObstacle: function() {
-    this.obstaclesTop.push(
-      new Obstacle(this.ctx, 1000, this.assets[4])
-    );
+    this.obstaclesTop.push(new Obstacle(this.ctx, this.canvas.width, this.assets[4]));
 
-    if (this.obstaclesTop[0].x < (-this.obstaclesTop[0].w))
-    this.obstaclesTop.shift();
+    if (this.obstaclesTop[0].x < (-this.obstaclesTop[0].w)) {
+      this.obstaclesTop.shift();
+    }
 
-    this.obstaclesBottom.push(
-      new Obstacle(this.ctx, 1000, this.assets[4])
-    );
-    if (this.obstaclesBottom[0].x<(-this.obstaclesBottom[0].w))
-    this.obstaclesBottom.shift();
+    this.obstaclesBottom.push(new Obstacle(this.ctx, this.canvas.width, this.assets[4]));
+
+    if (this.obstaclesBottom[0].x < (-this.obstaclesBottom[0].w)) {
+      this.obstaclesBottom.shift();
+    }
   },
 
   /* Creating a new array of obstacles in the middle of the screen. */
   generateObstacleMiddle: function(){
-    this.obstaclesMiddle[0] = ( Array(26).fill().map(( _, idx ) => new Obstacle(this.ctx, ((idx * 40) + this.canvas.width),this.assets[4])))
+    this.obstaclesMiddle[0] = ( Array(2).fill().map(( _, idx ) => (
+      new Obstacle(this.ctx, ((idx * 40) + this.canvas.width), this.assets[4])))
+      )
   },
 
   /* Clearing the canvas. */

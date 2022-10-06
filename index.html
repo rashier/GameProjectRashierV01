@@ -3,29 +3,34 @@
 
 <head>
   <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="shortcut icon" href="./img/marvin-icon.png" type="image/x-icon">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Rashier Game V0.1</title>
+  <title>Jump Game V0.1</title>
   <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.css"> -->
   <link rel="stylesheet" href="css/style.css">
   
 </head>
 
 <body>
-  <div class="first-screen" id="first-screen">
+  <div class="start-screen" id="start-screen">
     <button id="btn-start">START</button>
   </div>
   <main>
-    <div id="container">
-      <canvas id="canvas" width="100" height="300"></canvas>
+    <div class="canvas-container" id="container">
+      <canvas id="canvas" width="100" height="200"></canvas>
     </div>
-    <div id="barraLateral">
-      <div id="firstScreen">JUMP GAME</div>
-      <img id="background" src="img/portadaFinal.jpg" alt="Marvin and Dot">
-      <div id="scoreboard">Score:</div>
+    <div class="info-game-container">
+      <div class="game-title">JUMP GAME</div>
+      <img class="game-img" src="img/portadaFinal.jpg" alt="Marvin and Dot">
+      <div class="game-score" >
+        <div id="scoreboard">
+          Score: <br> 34
+        </div>
+      </div>
     </div>
   </main>
+  
   <script type="text/javascript" src="js/scoreboard.js"></script>
   <script type="text/javascript" src="js/obstacle.js"></script>
   <script type="text/javascript" src="js/player.js"></script>
