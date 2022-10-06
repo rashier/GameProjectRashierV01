@@ -1,5 +1,5 @@
 class Background{
-    constructor(w,h,ctx, backgroundImage){
+    constructor(w,h, ctx, backgroundImage){
         this.ctx=ctx;
         this.imageBackground=backgroundImage
         this.w=w;

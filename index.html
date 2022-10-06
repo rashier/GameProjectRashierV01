@@ -1,30 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="./img/marvin-icon.png" type="image/x-icon">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Rashier Game V0.1</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.css">
-    <link rel="stylesheet" href="css/style.css">
-    <script type="text/javascript" src="js/scoreboard.js"></script>
-    <script type="text/javascript" src="js/obstacle.js"></script>
-    <script type="text/javascript" src="js/player.js"></script>
-    <script type="text/javascript" src="js/background.js"></script>
-    <script type="text/javascript" src="js/game.js"></script>
-    <script type="text/javascript" src="js/index.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="shortcut icon" href="./img/marvin-icon.png" type="image/x-icon">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Rashier Game V0.1</title>
+  <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.css"> -->
+  <link rel="stylesheet" href="css/style.css">
+  
 </head>
+
 <body>
-    <main>
-        <div id="container">
-            <canvas id="canvas" width="100" height="300"></canvas>
-        </div>
-        <div id="barraLateral">
-            <div id="firstScreen">JUMP GAME</div>
-            <img id="background" src="img/portadaFinal.jpg" alt="Marvin and Dot">
-            <div id="scoreboard">Score:</div>
-        </div>
-    </main>
+  <div class="first-screen" id="first-screen">
+    <button id="btn-start">START</button>
+  </div>
+  <main>
+    <div id="container">
+      <canvas id="canvas" width="100" height="300"></canvas>
+    </div>
+    <div id="barraLateral">
+      <div id="firstScreen">JUMP GAME</div>
+      <img id="background" src="img/portadaFinal.jpg" alt="Marvin and Dot">
+      <div id="scoreboard">Score:</div>
+    </div>
+  </main>
+  <script type="text/javascript" src="js/scoreboard.js"></script>
+  <script type="text/javascript" src="js/obstacle.js"></script>
+  <script type="text/javascript" src="js/player.js"></script>
+  <script type="text/javascript" src="js/background.js"></script>
+  <script type="text/javascript" src="js/game.js"></script>
+  <script type="text/javascript" src="./js/index.js"></script>
 </body>
+
 </html>
