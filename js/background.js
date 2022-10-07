@@ -36,13 +36,14 @@ class Background {
     );
   }
 
-  //me mueve el background
   /**
    * Move the image to the left by the amount of the dx property, and if the image
    * has moved off the left edge of the canvas, move it back to the right edge.
    */
   move() {
     this.x -= this.dx;
-    if (this.x < -this.w) this.x = 0;
+    if (this.x < -this.w) {
+      this.x = 0
+    };
   }
 }
