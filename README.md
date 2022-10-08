@@ -27,4 +27,4 @@ Las teclas a usar son:
 * JAVASCRIPT
 
 
-Created by *Cristopher Benavides* - 2019
+Created by *Cristopher Benavides* - 2019.
